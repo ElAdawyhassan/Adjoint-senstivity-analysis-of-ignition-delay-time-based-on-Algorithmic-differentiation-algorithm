@@ -1,0 +1,136 @@
+%%
+%% Copyright 2007, 2008, 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+
+%% Please read the file, ``Addtional_AuthorInstruction_LaTeX.pdf'', for choosing the following options. 
+%% Please choose only one of the two following options. Note that the option \final, which is also provided below, must not be submitted.
+%\def\preprint{1}			% Use for submitted manuscript
+\def\wordcount {1}		% Use for word count
+
+%% The following option provides the final print version. This is only for personal use. Don't use this for submission.
+%\def\final {1}
+
+%% Please do not modify the following nine lines
+\ifdefined\preprint
+  \documentclass[preprint,review,12pt]{elsarticle}
+\fi
+\ifdefined\wordcount
+  \documentclass[final,3p,times,twocolumn]{elsarticle}
+\fi
+\ifdefined\final
+  \documentclass[final,3p,times,twocolumn]{elsarticle}
+\fi
+
+%% Graphics packages for PostScript figures
+%%\usepackage{graphics}
+\usepackage{graphicx,stfloats}
+\usepackage{color}
+
+%% Other useful packages
+%\usepackage{latexsym}
+%\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{threeparttable}
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{siunitx}
+%% The amsthm package provides extended theorem environments
+%\usepackage{amsthm}
+%\usepackage{hyperref}
+%\hypersetup{colorlinks = true}
+
+%\definecolor{CeruleanRef}{RGB}{12,127,172}
+\captionsetup[figure]{name={Fig.},labelsep=period}
+%\renewcommand{\figureautorefname}{Fig.}
+%\def\equationautorefname~#1\null{Eq.~(#1)\null}
+
+\biboptions{sort&compress}
+
+\journal{Proceedings of the Combustion Institute}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Sensetivity Analysis}
+
+\author{Ahmed Hassan\corref{cor1}}
+\ead{a.hassan@itv.rwth-aachen.de}
+\author{Moataz Sabry}
+\author{Vincent Le Chenadec}
+\author{Taraneh Sayadi}
+
+
+
+\address{Institute for Combustion Technology, RWTH Aachen University, 52064 Aachen, Germany}
+%\address[sec]{Second affiliation, Address, City and Postcode, Country}
+\cortext[cor1]{Corresponding author.}
+
+\begin{abstract}
+
+Adjoint sensitivity analysis of ignition delay time for a zero-dimension reactor is presented in this work. A developed work package based on the algorithmic differentiation technique is used to provide accurate jacobins. The numerical jacobians provided by algorithmic differentiation are similarly accurate as analytical ones encounter the approximated derivatives using finite difference schemes. The framework is extendable for different configurations without extra effort. The proposed approach provides a superior accurate and robust computational method for the sensitivity of any parameter contribute to the governing equations ( Arrhenius, thermodynamic, etc.).          
+
+\end{abstract}
+
+\begin{keyword}
+
+Sensitivity analysis \sep Uncertainty quantification \sep Enthalpy of formation \sep Standard entropy \sep Heat capacity
+
+\end{keyword}
+
+\end{frontmatter}
+
+\clearpage
+
+\section{Introduction}
+\label{Introduction}
+
+TBD
+\section{Primal problem}
+
+\section{Methodology}
+\label{Methodology}
+\subsection{Adjoint approach}
+
+\subsection{Algorithmic differentiation}
+\subsection{Sensitivity analysis for thermochemical properties}
+\label{SensitivityAnalysis}
+
+TBD 
+\section{Results}
+
+
+\section{Conclusions}
+\label{Conclusions}
+
+TBD
+
+\section*{Acknowledgments}
+\label{Acknowledgments}
+
+TBD 
+
+%% References can be added with or without bibTeX database
+%%
+%% References with bibTeX database:
+%% The bibliography style, elsarticle-num.bst, is used and available within the template package
+\bibliography{references.bib} %%User-specified
+\bibliographystyle{elsarticle-num-CNF.bst}
+
+%% References without bibTeX database:
+%%
+% \begin{thebibliography}{99}
+% \bibitem{Westbrook_1984} C. Westbrook, F. Dryer, Progress in Energy and Combustion Science 10 (1984) 1--57.
+% \bibitem{Peters_2002} N. Peters, G. Paczko, R. Seiser, K. Seshadri, Combustion and Flame 128 (2002) 38--59.
+% \end{thebibliography}
+
+\end{document}
+
+%%
+%% End of file `template.tex'.
