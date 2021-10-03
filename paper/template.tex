@@ -27,7 +27,7 @@
 %%\usepackage{graphics}
 \usepackage{graphicx,stfloats}
 \usepackage{color}
-
+\usepackage{graphicx}
 %% Other useful packages
 %\usepackage{latexsym}
 %\usepackage{subfigure}
@@ -40,6 +40,7 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{siunitx}
+\usepackage{subfiles}
 %% The amsthm package provides extended theorem environments
 %\usepackage{amsthm}
 %\usepackage{hyperref}
@@ -93,17 +94,150 @@ Sensitivity analysis \sep Uncertainty quantification \sep Enthalpy of formation 
 
 TBD
 \section{Primal problem}
+The governing equations that describe an ideal homogeneous  zero-dimensional isochoric reactor are as follows,
+\begin{equation}
+\frac{\partial Y_i}{\partial t}=\frac{1}{\rho}\dot{\omega}_i
+\end{equation}
+\begin{equation}
+\frac{\partial T}{\partial t}=\frac{1}{\rho C_v}\dot{\omega''}_T
+\end{equation}
+
+where $Y_i$, is the species mass fraction vector $i=[1, ........, N]	$, $C_v$, $\rho$ are the heat capacity at constant volume, the density respectively, $\dot{\omega}_i$ is the rate of consumption or production for the different species and  $\dot{\omega"}_T$ is the heat released rate which is defined by,
+
+\begin{equation}
+\label{eq:EST}
+\dot{\omega"}_T=-\sum_{i=1}^{N} \dot{\omega}_i u_i,
+\end{equation} 
+knowing that $u_i$ is the total internal and chemical energy and driven from the enthalpy,
+\begin{equation}
+u_i=h_i-R T.
+\end{equation} 
+The reaction rate of different species $i$ due to the set of reactions $N_r$ is expressed as, 
+\begin{equation}
+\label{eq:SST}
+\dot{\omega}_i=\sum_{j=1}^{N_r} \dot{\omega}_{ij}.
+\end{equation}     
+The consumption/production rate of species based on each reaction is $\dot{\omega}_{ij}= q_j {M}_i {\nu}_{ij} $ where $M_i$ is the molecular weight of species $i$, $ {\nu}_{ij}$ is the stoichiometric molar balance between reactants and products of species $i$ involves in reaction$j$,$ {\nu}_{ij}= {\nu''}_{ij}- {\nu'}_{ij}$. The reaction rates $q_j$ are modelled as follow,
+ 
+ \begin{equation}
+ q_j={K_f}_j \prod_{i=1}^{N}[X_i]^{{\nu'}_{ij}}-{K_r}_j \prod_{i=1}^{N}[X_i]^{{\nu''}_{ij}},
+ \end{equation}
+
+where the forward and reverse reaction rate coefficients of reaction $j$ are ${K_f}_j$ and ${K_r}_j$ respectively, and the molar fraction of species $i$ is $[X_i]$. The thermodynamic quantities are computed based on NASA polynomial empirical model {\color{red} add ref}. The ideal gas equation $p=\frac{\rho R T}{\bar{M}}$ is used to close the system, as $\bar{M}$ is the average molecular weight and $R $ is the universal gas constant. 
+\subsection{reaction rates models}
+
+
+
+\subsection{Mechanisms}
+
 
 \section{Methodology}
 \label{Methodology}
+The most common method in sensitivity analysis is based on the gradient descendant technique for continuous, differentiable, and convex functions {\color{red} add ref}, and this is also the case for our model.
+ As there are several approaches to compute the gradients (brute force, Forward sensitivity, and Adjoint, etc.), and each one has its advantages and disadvantages, a detailed comparison is provided in  {\color{red} add ref}. The adjoint approach scales with the number of the objective functions/quantity of interests(QOI) independent of the system parameters number based on that the adjoint approach was chosen{\color{red} add ref}.  
+\subsection{Forward solution}
+The forward solution of the primal problem  are split into two main steps reading the chemical mechanism files including thermodynamic properties and set up the numerical framework    	
+
 \subsection{Adjoint approach}
+There are several adjoint approaches as fully continuous, fully discrete, and semi discrete{\color{red} add ref}.  The studied system is zero-dimensional so only fully continuous/discrete techniques are applicable. for this study, the fully continuous method is considered. The general derivation of  adjoint equations for system of non linear coupled ordinary differential equations(ODE) as follow, 
+consider an objective function of multiple imputes and single outputs, $y=J(q_i,g_j)$, where$y \rightarrow R$ as $q_i \rightarrow R^n$, $g_j \rightarrow R^m$ are the state vector and system parameters( thermodynamic, Arrhenius ,etc.) respectively. The objective function could represent any quantity of interest (QoI) produced by the system like ignition delay time or average temperature etc. The Lagrangian function is used to remove the dependencies between the state variables and system parameters, 
+\begin{equation}
+\mathcal{L}(q_i,\textbf{g})=J-\mathbf{\lambda} \cdot \int_{0}^{t_f} (\frac{\partial q_i}{\partial t}- F(q_i\textbf{g}))dt-a_i\cdot (q_i-q_0)\big|_{t=0},
+\end{equation}    
+where $\lambda$ and $a$ are the lagrangian variables vectors , $F(q_i,\textbf{g})$ are the governing equations right hand side and $(q_i-q_0)\big|_{t=0}$ are the initial conditions, taking the derivative of $\mathcal{L}(q_i,\textbf{g})$ with respect to $q_i$ leads to the following adjoint equations.
+\begin{equation}
+\frac{\partial \mathcal{L}(q_i,\textbf{g})}{\partial q_i} \delta q_i=\frac{\partial J}{\partial q_i} \delta q_i-\lambda_i\int_{}^{} \frac{\partial \delta{q_i}}{\partial t}-\frac{\partial F(q_i,\textbf{g})}{\partial q_i}\delta q_i dt-a_i \delta q_i\big|_{t=0}, 
+\end{equation}
+applying integration by parts to the above equation,
+\begin{equation}
+\frac{\partial \mathcal{L}(q_i,\textbf{g})}{\partial q_i} \delta q_i=\frac{\partial J}{\partial q_i} \delta q_i+\delta{q_i}\int_{}^{} \frac{\partial \lambda_i}{\partial t}+\lambda_j \frac{\partial F_j}{\partial q_i}dt-a_i \delta q_i\big|_{t=0}-\lambda_i \delta q_i\big|_{t=0}^{t_f}, 
+\end{equation}
+in case $J$ is an integral QoI  then it can be expressed as $J=\int_{}^{} h dt $ and by substituting in the above equation
+\begin{equation}
+\frac{\partial \mathcal{L}(q_i,\textbf{g})}{\partial q_i} \delta q_i=\delta{q_i}\int_{}^{} \frac{\partial h}{\partial q_i}+\frac{\partial \lambda_i}{\partial t}+\lambda_j\frac{\partial F_j}{\partial q_i}dt-a_i \delta q_i\big|_{t=0}-\lambda_i \delta q_i\big|_{t=0}^{t_f}, 
+\end{equation}
 
-\subsection{Algorithmic differentiation}
-\subsection{Sensitivity analysis for thermochemical properties}
+then by cancelling the perturbation $\delta q_i$ the adjoin equation is as follow,
+\begin{equation}
+0=\frac{\partial h}{\partial q_i}+\frac{\partial \lambda_i}{\partial t}+\lambda_j \frac{\partial F_j}{\partial q_i}.
+\end{equation}
+Eliminating the perturbation $\delta q_i$ at $t=0$ and $
+t=t_f$, as the values of $\lambda_i$ are known at $t=t_f$, this imposes an initial conditions for the above equations $\lambda_i=0\Big|_{t=t_f}$, due to these initial conditions the adjoint equations are integrated backward in time, which requires a very dense mesh to achieve high accuracy {\color{red} add ref}.
+%Fully discrete adjoint enforces using a self adjoint time integrator or derive the adjoint form of the preferred time integrator, the first option is not applicable as highly non-linear ODEs solved using  high order Range-kouta(RK) schemes which are not self adjont, and deriving there adjoint version is out of this study scope. Fully contionous adjoint 
+
+
+
+Computing the jacobians for highly non-linear systems requires checking pointing that is stored during the forward solution of the primal problem, because of the asynchronous between the forward and the backward time integration. A high-order interpolation function is used to overcome the fidelity difference. 
+\subsection{Computing derivatives}
+
+There are several methods to compute the derivatives that construct the jacobians, one of the most common techniques is the Fréchet derivative {\color{red} add ref}. Although it is easy to implement, this method is error-prone which is accurate depending on the proposed perturbation value similar to the FD method. Complex step differentiation (CSD) prevents the loss of precision inherited in the traditional finite difference, however, still not so accurate and on top of that, the main disadvantage is the high computational time consumption for both of the methods. These disadvantages make FD and CSD are out of scope, especially for large systems. To achieve high accuracy affordably a working package based on algorithmic differentiation (AD) method is coded up from scratch in Julia Language likewise the governing equations~\ref{eq: GE}. The new AD tool provides the values of reaction rates and the thermodynamic quantities, and their gradients with respect to all system variables and parameters% involved  
+%in the source term of species and energy equations ~\ref{eq:SST}~\ref{eq:EST} 
+fast and as accurate as analytical derivatives. It is important to note that, Julia is a new programming language made for facilitating the computation of scientific applications. Julia combines execution speed on a par with statistically-typed languages with the active performance provided by dynamic languages  {\color{red} add ref}.
+      
+%\subsection{Algorithmic differentiation}
+\subsection{Sensitivity analysis of ignition delay time}
 \label{SensitivityAnalysis}
+The ignition process involves a sudden increase in the temperature accompanies by changes in the species profiles. The variation in the behaviour of the species profile changes according to the mechanism used in the modelled reactor, so it is hard to put a general and identical description to ignition based on the specific field. But globally the rapid increase in the temperature distinguishes the ignition phenomenon independent of the applied mechanism so that the phase shift in the temperature profile could mimic the ignition delay time {\color{red} add ref} and the QOI is written as follow
+\begin{equation}
+J=\frac{1}{\tau}\int_{}^{} (T-T^{shift})^2dt.
+\end{equation}
+The transitioned profile $T^{shift}$  is determined from the relation $T^{shift}(t)=T(t-10^-2\cdot t_r)$, where $t_r$ is the characteristic time of ignition and computed based on the maximum time gradient for temperature $\frac{dT}{dt}\Big|_{max}$ leading to the equation
+\begin{equation}
+tr=\frac{T_{max}-T_0}{\frac{dT}{dt}\Big|_{max}}.
+\end{equation} 
+Figure~\ref{fig:figure1} visualizes the difference between the original and the delayed profile, showing a schematic vision to the value of $t_r$.  
 
-TBD 
-\section{Results}
+%\begin{figure}
+%\centering
+% {\includegraphics[width=0.5\textwidth]{figures/Temp-validation.pdf}}
+%\caption{T}
+%    \label{fig:figure1}
+% \end{figure}
+The gradients of the QOI with respect to system parameter $\frac{d J}{dg_i}$ is derived from the Lagrangian function {\color{red} add ref}  as follow 
+%\begin{equation}
+%\frac{\partial \mathcal{L}(g_i,\textbf{q})}{\partial g_i} \delta g_i=\delta{g_i}\int_{}^{} \frac{\partial h}{\partial g_i}+\lambda_j\frac{\partial F_j}{\partial g_i}dt, 
+%\end{equation}
+% as $\frac{d J}{dg_i}=\frac{\partial \mathcal{L}(g_i,\textbf{q})}{\partial g_i} $ then the grad
+\begin{equation}
+\frac{d J}{dg_i}= \int_{}^{} \frac{\partial h}{\partial g_i}+\lambda_j\frac{\partial F_j}{\partial g_i}dt.
+\end{equation}
+Finally, the sensitivity is normalized and related to $\frac{d J}{dg_i}$ as follow  {\color{red} add ref}, 
+\begin{equation}
+S_i=\frac{g_i}{J}\cdot\frac{d J}{dg_i}
+\end{equation}   
+
+
+
+
+\section{Results and Validation}
+The first step is validating the primal problem~\ref{GE} implementation in the newly developed AD tool  {\color{red} name of the tool}. For the sake of validation the $gri3.0$ mechanism is simulated by Cantera and Flame Master {\color{red} add ref} with the initial species composition and temperature  {\color{red} add Y0, T0} and compared to the results of {\color{red} name of the tool}. The perfect matching between temperature and species profiles obtained by different software as shown in figure~\ref{fig:figure1} and figure \ref{fig:figure2} insures the veracity of the simulation of the governing equations by {\color{red} name of the tool}.
+
+         
+%\begin{figure}
+%\centering
+% {\includegraphics[width=0.5\textwidth]{figures/Temp-validation.pdf}}
+%\caption{T}
+%    \label{fig:figure2}
+% \end{figure}
+%
+%
+%\begin{figure}
+%\centering
+%\subfloat[Gas phase temperature]{\includegraphics[width=0.33\textwidth]{figures/fTemp-validation.pdf}\label{fig:figure3a}}
+%\subfloat[$Y_{\mathrm{O}_2}$]{\includegraphics[width=0.33\textwidth]{figures/Temp-validation.pdf}\label{fig:figure3b}}
+%\subfloat[$Y_{\mathrm{CO}_2}$]{
+%\includegraphics[width=0.33\textwidth]{figures/Temp-validation.pdf}\label{fig:figure3c}}
+%\caption{TBD}
+%\label{fig:figure3}
+%\end{figure}
+The validation of the sensitivity analysis is carried out using CSD, two different mechanisms with various environments are used for this purpose. Starting with the $h2vb$ mechanism as a preliminary step due to the small size of the mechanism and the huge importance of hydrogen fuel. Considering the following initial conditions {\color{red} name of the tool} for all of the $h2vb$ sensitivity results unless different composition is stated. Figure~\ref{fig:figure4} shows a good agreement between the results of {\color{red} name of the tool} and CSD. the reaction  {\color{red} name of the reaction} is the dominant reaction in the ignition process in terms of Arrihinieus parameters. 
+ 
+
+\subsection{Fall off and third body reactions parameter}
+
+\subsection{Thermodynamic parameters}
+
+\subsection{Sensitivity evolution in time}
 
 
 \section{Conclusions}
