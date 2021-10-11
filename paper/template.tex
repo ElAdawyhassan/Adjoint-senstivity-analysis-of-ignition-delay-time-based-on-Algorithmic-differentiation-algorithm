@@ -47,7 +47,7 @@
 %\hypersetup{colorlinks = true}
 
 %\definecolor{CeruleanRef}{RGB}{12,127,172}
-%\captionsetup[figure]{name={Fig.},labelsep=period}
+\captionsetup[figure]{name={Fig.},labelsep=period}
 %\renewcommand{\figureautorefname}{Fig.}
 %\def\equationautorefname~#1\null{Eq.~(#1)\null}
 
@@ -120,20 +120,17 @@ The reaction rate of different species $i$ due to the set of reactions $N_r$ is 
 The consumption/production rate of species based on each reaction is $\dot{\omega}_{ij}= q_j {M}_i {\nu}_{ij} $ where $M_i$ is the molecular weight of species $i$, $ {\nu}_{ij}$ is the stoichiometric molar balance between reactants and products of species $i$ involves in reaction$j$,$ {\nu}_{ij}= {\nu''}_{ij}- {\nu'}_{ij}$. The reaction rates $q_j$ are modelled as follow,
  
  \begin{equation}
- q_j={k_f}_j \prod_{i=1}^{N}[X_i]^{{\nu'}_{ij}}-{k_r}_j \prod_{i=1}^{N}[X_i]^{{\nu''}_{ij}},
+ q_j={K_f}_j \prod_{i=1}^{N}[X_i]^{{\nu'}_{ij}}-{K_r}_j \prod_{i=1}^{N}[X_i]^{{\nu''}_{ij}},
  \end{equation}
 
-where the forward and reverse reaction rate constants of reaction $j$ are ${k_f}_j$ and ${k_r}_j$ respectively, and the molar concentration of species $i$ is $[X_i]$. The thermodynamic quantities are computed based on NASA polynomial empirical model {\color{red} add ref}. The ideal gas equation $p=\frac{\rho R T}{\bar{M}}$ is used to close the system, as $\bar{M}$ is the average molecular weight and $R $ is the universal gas constant. 
+where the forward and reverse reaction rate coefficients of reaction $j$ are ${K_f}_j$ and ${K_r}_j$ respectively, and the molar fraction of species $i$ is $[X_i]$. The thermodynamic quantities are computed based on NASA polynomial empirical model {\color{red} add ref}. The ideal gas equation $p=\frac{\rho R T}{\bar{M}}$ is used to close the system, as $\bar{M}$ is the average molecular weight and $R $ is the universal gas constant. 
 \subsection{reaction rates models}
-The forward rate coefficients are generally computed using Arrhenius parameters. Depending on how the forward rate constants change with the pressure, additional reaction types, such as three-body and uni-molecular/recombination fall-off reactions, are also considered. Lindemann and Troe forms are used to express the rate constants of pressure-dependent fall-off reactions.The reverse rate constants are related to the forward rate constants through the equilibrium constants or through own Arrhenius parameter in case explicitly mentioned in the mechanism data. 
+
 
 
 \subsection{Mechanisms}
-\subsubsection{H2/O2}
-The first scheme under consideration is the hydrogen oxidation mechanism described by Ó Conaire et al. [29]. It includes 40 reactions among 10 species consisting of 5 elements, i.e. O, H, C, N, and Ar.
 
-\subsubsection{GRI 3.0}
-The second examined scheme is the well-known gri3.0 [30] reaction scheme. The model includes 325 reactions and 53 species.
+
 \section{Methodology}
 \label{Methodology}
 The most common method in sensitivity analysis is based on the gradient descendant technique for continuous, differentiable, and convex functions {\color{red} add ref}, and this is also the case for our model.
@@ -184,18 +181,18 @@ The ignition process involves a sudden increase in the temperature accompanies b
 \begin{equation}
 J=\frac{1}{\tau}\int_{}^{} (T-T^{shift})^2dt.
 \end{equation}
-The transitioned profile $T^{shift}$  is determined from the relation $T^{shift}(t)=T(t-10^{-2}\cdot t_r)$, where $t_r$ is the characteristic time of ignition and computed based on the maximum time gradient for temperature $\frac{dT}{dt}\Big|_{max}$ leading to the equation
+The transitioned profile $T^{shift}$  is determined from the relation $T^{shift}(t)=T(t-10^-2\cdot t_r)$, where $t_r$ is the characteristic time of ignition and computed based on the maximum time gradient for temperature $\frac{dT}{dt}\Big|_{max}$ leading to the equation
 \begin{equation}
 tr=\frac{T_{max}-T_0}{\frac{dT}{dt}\Big|_{max}}.
 \end{equation} 
 Figure~\ref{fig:figure1} visualizes the difference between the original and the delayed profile, showing a schematic vision to the value of $t_r$.  
 
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/T validation.pdf}}
-\caption{T}
-    \label{fig:figure1}
- \end{figure}
+%\begin{figure}
+%\centering
+% {\includegraphics[width=0.5\textwidth]{figures/Temp-validation.pdf}}
+%\caption{T}
+%    \label{fig:figure1}
+% \end{figure}
 The gradients of the QOI with respect to system parameter $\frac{d J}{dg_i}$ is derived from the Lagrangian function {\color{red} add ref}  as follow 
 %\begin{equation}
 %\frac{\partial \mathcal{L}(g_i,\textbf{q})}{\partial g_i} \delta g_i=\delta{g_i}\int_{}^{} \frac{\partial h}{\partial g_i}+\lambda_j\frac{\partial F_j}{\partial g_i}dt, 
@@ -210,58 +207,18 @@ S_i=\frac{g_i}{J}\cdot\frac{d J}{dg_i}
 \end{equation}   
 
 
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/all validation.pdf}}
-\caption{T}
-    \label{fig:figure2}
-\end{figure}
+
 
 \section{Results and Validation}
-The first step is validating the primal problem~\ref{GE} implementation in the newly developed AD tool  {\color{red} name of the tool}. For the sake of validation the $gri3.0$ mechanism is simulated by Cantera and Flame Master {\color{red} add ref} with initial mass fractions of $Y_{CH_4} = 0.05$ and $Y_{O_2} = 0.2$ in $N_2$, as initial temperature 1000 K at atmospheric pressure condition is used and compared to the results of {\color{red} name of the tool}. The perfect matching between temperature and species profiles obtained by different software as shown in figure~\ref{fig:figure1} and figure \ref{fig:figure2} insures the veracity of the simulation of the governing equations by {\color{red} name of the tool}.
+The first step is validating the primal problem~\ref{GE} implementation in the newly developed AD tool  {\color{red} name of the tool}. For the sake of validation the $gri3.0$ mechanism is simulated by Cantera and Flame Master {\color{red} add ref} with the initial species composition and temperature  {\color{red} add Y0, T0} and compared to the results of {\color{red} name of the tool}. The perfect matching between temperature and species profiles obtained by different software as shown in figure~\ref{fig:figure1} and figure \ref{fig:figure2} insures the veracity of the simulation of the governing equations by {\color{red} name of the tool}.
 
          
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/S_A_H2O2 sensitivity validation.pdf}}
-\caption{T}
-    \label{fig:figure3}
-\end{figure}
-
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/S_b_H2O2 sensitivity validation.pdf}}
-\caption{T}
-    \label{fig:figure3}
-\end{figure}
-
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/S_E_H2O2 sensitivity validation.pdf}}
-\caption{T}
-    \label{fig:figure3}
-\end{figure}
-
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/S_A_gri sensitivity validation.pdf}}
-\caption{T}
-    \label{fig:figure3}
-\end{figure}
-
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/S_E_gri sensitivity validation.pdf}}
-\caption{T}
-    \label{fig:figure3}
-\end{figure}
-
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/S_b_gri sensitivity validation.pdf}}
-\caption{T}
-    \label{fig:figure3}
-\end{figure}
+%\begin{figure}
+%\centering
+% {\includegraphics[width=0.5\textwidth]{figures/Temp-validation.pdf}}
+%\caption{T}
+%    \label{fig:figure2}
+% \end{figure}
 %
 %
 %\begin{figure}
@@ -273,7 +230,7 @@ The first step is validating the primal problem~\ref{GE} implementation in the n
 %\caption{TBD}
 %\label{fig:figure3}
 %\end{figure}
-The validation of the sensitivity analysis is carried out using CSD, two different mechanisms with various environments are used for this purpose. Starting with the $h2vb$ mechanism as a preliminary step due to the small size of the mechanism and the huge importance of hydrogen fuel. Considering the following  initial mass fractions of $X_{H_2} = 0.09$ and $X_{O_2} = 0.18$ in $N_2$, as initial temperature 1000 K at atmospheric pressure condition is used for all of the $h2vb$ sensitivity results unless different composition is stated. Figure~\ref{fig:figure4} shows a good agreement between the results of {\color{red} name of the tool} and CSD. the reaction  {\color{red} name of the reaction} is the dominant reaction in the ignition process in terms of Arrihinieus parameters. 
+The validation of the sensitivity analysis is carried out using CSD, two different mechanisms with various environments are used for this purpose. Starting with the $h2vb$ mechanism as a preliminary step due to the small size of the mechanism and the huge importance of hydrogen fuel. Considering the following initial conditions {\color{red} name of the tool} for all of the $h2vb$ sensitivity results unless different composition is stated. Figure~\ref{fig:figure4} shows a good agreement between the results of {\color{red} name of the tool} and CSD. the reaction  {\color{red} name of the reaction} is the dominant reaction in the ignition process in terms of Arrihinieus parameters. 
  
 
 \subsection{Fall off and third body reactions parameter}
