@@ -192,8 +192,8 @@ Figure~\ref{fig:figure1} visualizes the difference between the original and the 
 
 \begin{figure}
 \centering
- {\includegraphics[width=0.5\textwidth]{figures/T validation.pdf}}
-\caption{T}
+ {\includegraphics[width=0.5\textwidth]{figures/time shift without legend.pdf}}
+\caption{comparison between the reference temperature profile.-----, shifted profile;  {\color{red} .....}   }
     \label{fig:figure1}
  \end{figure}
 The gradients of the QOI with respect to system parameter $\frac{d J}{dg_i}$ is derived from the Lagrangian function {\color{red} add ref}  as follow 
@@ -210,36 +210,44 @@ S_i=\frac{g_i}{J}\cdot\frac{d J}{dg_i}
 \end{equation}   
 
 
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/all validation.pdf}}
-\caption{T}
-    \label{fig:figure2}
-\end{figure}
 
 \section{Results and Validation}
-The first step is validating the primal problem~\ref{GE} implementation in the newly developed AD tool  {\color{red} name of the tool}. For the sake of validation the $gri3.0$ mechanism is simulated by Cantera and Flame Master {\color{red} add ref} with initial mass fractions of $Y_{CH_4} = 0.05$ and $Y_{O_2} = 0.2$ in $N_2$, as initial temperature 1000 K at atmospheric pressure condition is used and compared to the results of {\color{red} name of the tool}. The perfect matching between temperature and species profiles obtained by different software as shown in figure~\ref{fig:figure1} and figure \ref{fig:figure2} insures the veracity of the simulation of the governing equations by {\color{red} name of the tool}.
+The first step is validating the primal problem~\ref{GE} implementation in the newly developed AD tool  {\color{red} name of the tool}. For the sake of validation the $gri3.0$ mechanism is simulated by Cantera and Flame Master {\color{red} add ref} with initial mass fractions of $Y_{CH_4} = 0.05$ and $Y_{O_2} = 0.2$ in $N_2$, as initial temperature $T=1000 K$ at atmospheric pressure condition is used and compared to the results of {\color{red} name of the tool}. The perfect matching between temperature and species profiles obtained by different software as shown in figure~\ref{fig:figure2} and figure \ref{fig:figure3} insures the veracity of the simulation of the governing equations by {\color{red} name of the tool}.
 
-         
+      \begin{figure}
+\centering
+ {\includegraphics[width=0.5\textwidth]{figures/T validation.pdf}}
+\caption{comparison between the temperature profile obtained by different software .-----, AD tool; x, Cantera; $\Delta$, Flame Master  }
+    \label{fig:figure2}
+ \end{figure}   
+ \begin{figure}
+\centering
+ {\includegraphics[width=0.5\textwidth]{figures/all validation.pdf}}
+\caption{comparison between different species profiles obtained by different software .-----, AD tool; x, Cantera; $\Delta$, Flame Master}
+    \label{fig:figure3}
+\end{figure}
+The validation of the sensitivity analysis is carried out using CSD, two different mechanisms with various environments are used for this purpose. Starting with the $h2vb$ mechanism as a preliminary step due to the small size of the mechanism and the huge importance of hydrogen fuel. Considering the following  initial mass fractions of $X_{H_2} = 0.09$ and $X_{O_2} = 0.18$ in $N_2$, as initial temperature 1000 K at atmospheric pressure condition is used for all of the $h2vb$ sensitivity results unless different composition is stated. Figure~\ref{fig:figure4} shows a good agreement between the results of {\color{red} name of the tool} and CSD.  The reaction  $H+O_2=>O+OH$ is the dominant reaction in the ignition process in terms of Arrihinieus parameters, showing the importance of the direct oxidation of $H_2$ on the gradients.
+ 
+  {\color{red} discuss the same results for GRI}.
 \begin{figure}
 \centering
  {\includegraphics[width=0.5\textwidth]{figures/H2_SA_Validation.pdf}}
-\caption{T}
-    \label{fig:figure3}
-\end{figure}
-
-\begin{figure}
-\centering
- {\includegraphics[width=0.5\textwidth]{figures/H2_Sb_Validation.pdf}}
-\caption{T}
+\caption{sensitivity analysis of ignition delay time with respect to $A$ for most dominant ten reactions}
     \label{fig:figure4}
 \end{figure}
 
 \begin{figure}
 \centering
- {\includegraphics[width=0.5\textwidth]{figures/H2_SE_Validation.pdf}}
-\caption{T}
+ {\includegraphics[width=0.5\textwidth]{figures/H2_Sb_Validation.pdf}}
+\caption{sensitivity analysis of ignition delay time with respect to $\beta$ for most dominant ten reactions}
     \label{fig:figure5}
+\end{figure}
+
+\begin{figure}
+\centering
+ {\includegraphics[width=0.5\textwidth]{figures/H2_SE_Validation.pdf}}
+\caption{sensitivity analysis of ignition delay time with respect to $E$ for most dominant ten reactions}
+    \label{fig:figure6}
 \end{figure}
 
 %
@@ -253,12 +261,20 @@ The first step is validating the primal problem~\ref{GE} implementation in the n
 %\caption{TBD}
 %\label{fig:figure3}
 %\end{figure}
-The validation of the sensitivity analysis is carried out using CSD, two different mechanisms with various environments are used for this purpose. Starting with the $h2vb$ mechanism as a preliminary step due to the small size of the mechanism and the huge importance of hydrogen fuel. Considering the following  initial mass fractions of $X_{H_2} = 0.09$ and $X_{O_2} = 0.18$ in $N_2$, as initial temperature 1000 K at atmospheric pressure condition is used for all of the $h2vb$ sensitivity results unless different composition is stated. Figure~\ref{fig:figure4} shows a good agreement between the results of {\color{red} name of the tool} and CSD. the reaction  {\color{red} name of the reaction} is the dominant reaction in the ignition process in terms of Arrihinieus parameters. 
+%The validation of the sensitivity analysis is carried out using CSD, two different mechanisms with various environments are used for this purpose. Starting with the $h2vb$ mechanism as a preliminary step due to the small size of the mechanism and the huge importance of hydrogen fuel. Considering the following  initial mass fractions of $X_{H_2} = 0.09$ and $X_{O_2} = 0.18$ in $N_2$, as initial temperature 1000 K at atmospheric pressure condition is used for all of the $h2vb$ sensitivity results unless different composition is stated. Figure~\ref{fig:figure4} shows a good agreement between the results of {\color{red} name of the tool} and CSD. the reaction  {\color{red} name of the reaction} is the dominant reaction in the ignition process in terms of Arrihinieus parameters. 
  
 
 \subsection{Fall off and third body reactions parameter}
 
 \subsection{Thermodynamic parameters}
+One of the important aspects when analysing the ignition process is not only the reactions behaviour but also, the effect of the thermodynamic quantities and it's impact on system sensitivities. However, it is not straightforward to extract the derivatives of any QoI with respect to NASA polynomial coefficients, but as AD provides a full accessibility to the gradients with respect to all system parameters, it is possible to provide a full analysis for the sensitivity with respect to Thermodynamic parameters. 
+Figure~\ref{fig:figure7} shows that $a_{1N_2}$ dominating the other species and this can be returned to the large mass fraction of $N_2$
+\begin{figure}
+\centering
+ {\includegraphics[width=0.5\textwidth]{figures/a1.pdf}}
+\caption{sensitivity with respect to thermodynamic coefficient $a1$}
+    \label{fig:figure7}
+\end{figure}
 
 \subsection{Sensitivity evolution in time}
 
