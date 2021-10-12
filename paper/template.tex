@@ -268,14 +268,27 @@ The validation of the sensitivity analysis is carried out using CSD, two differe
 
 \subsection{Thermodynamic parameters}
 One of the important aspects when analysing the ignition process is not only the reactions behaviour but also, the effect of the thermodynamic quantities and it's impact on system sensitivities. However, it is not straightforward to extract the derivatives of any QoI with respect to NASA polynomial coefficients, but as AD provides a full accessibility to the gradients with respect to all system parameters, it is possible to provide a full analysis for the sensitivity with respect to Thermodynamic parameters. 
-Figure~\ref{fig:figure7} shows that $a_{1N_2}$ dominating the other species and this can be returned to the large mass fraction of $N_2$
+Figure~\ref{fig:figure7} shows that $a_{1N_2}$ dominating the other species. This can be returned to the large value of $Y_{N_2}$, which mainly influences the $C_v$ mixture average rather than enthalpy and entropy. As $N_2$ is an inert species in $h_2v$ scheme. Same results can be found by analysing the other coefficients at low temperature.
+
 \begin{figure}
 \centering
  {\includegraphics[width=0.5\textwidth]{figures/a1.pdf}}
-\caption{sensitivity with respect to thermodynamic coefficient $a1$}
+\caption{sensitivity with respect to thermodynamic coefficient $a_1$}
     \label{fig:figure7}
 \end{figure}
 
+Extracting the sensitivities with respect to NASA Polynomial coefficients at high temperature provides a similar  behaviour as it is shown in figure ~\ref{fig:figure8}. On the other hand, a comparison between figure~\ref{fig:figure7} and~\ref{fig:figure8} exhibits an increase in the gradient of $Y_{H_2O}$ which can be related to the increase in the value of $Y_{H_2O}$ due to the combustion process. This demonstrates that  thermodynamic properties for diluted mixture is controlled by the diluted species  
+ 
+
+\begin{figure}
+\centering
+ {\includegraphics[width=0.5\textwidth]{figures/aa2.pdf}}
+\caption{sensitivity with respect to thermodynamic coefficient $a_1$}
+    \label{fig:figure8}
+\end{figure}
+
+
+ {\color{red} discuss the same results for GRI}.
 \subsection{Sensitivity evolution in time}
 
 
